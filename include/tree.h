@@ -10,6 +10,7 @@ void clear();
 private:
 void insereRecursivo(Node* &p, Email * &item);
 void apaga(Email * &item);
+void apagaRecursivob(Node * p, Email * & email);
 void apagaRecursivo(Node* p);
 void porNivel();
 void preOrdem(Node* p);

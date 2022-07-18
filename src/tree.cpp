@@ -8,11 +8,21 @@ Tree::~Tree(){
 void Tree::insere(Email * email){
     insereRecursivo(root,email);
 }
+
 void Tree::apaga(Email * &email){
     Node * aux = root;
-    if(aux->email==email){
-        
-    }     
+    while(aux!=NULL){
+        if(aux->email==email){
+            //rotaciona
+            return;
+        }
+        if(email<aux->email){
+            aux = aux->esq;
+        }else{
+            aux = aux->dir;
+        }
+    }
+    std::cout<< "MENSAGEM INEXISTENTE"<<std::endl;
 }
 void Tree::insereRecursivo(Node* &p, Email * &item){
     if(p==NULL){
