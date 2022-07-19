@@ -1,9 +1,14 @@
 #include <iostream>
-#include "cell.h"
+#include "tree.h"
 int main(){
-    Cell * cell1 = new Cell( new Player("joao"), Message("text"));
-    Cell * cell2 = new Cell( new Player("riverton"), Message("salve"));
-    cell1->next = cell2;
-    cell1->next->message.printMessage();
+    Tree * tree = new Tree();
+    tree->insere(new Email(10,new Player("joao"),  new Message("text")));
+    tree->insere(new Email(9,new Player("riverton"),  new Message("riverton")));
+    tree->insere(new Email(5,new Player("ludmila"),  new Message("ludmila")));
+    tree->insere(new Email(16,new Player("vitor"),  new Message("vitor")));
+    tree->insere(new Email(12,new Player("bruno"),  new Message("bruno")));
+    tree->insere(new Email(18,new Player("joaozinho"),  new Message("joaozinho")));
+    tree->apaga(12);
+    tree->print();
     return 0;
 }
