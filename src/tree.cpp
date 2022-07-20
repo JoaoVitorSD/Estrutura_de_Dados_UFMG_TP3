@@ -3,7 +3,18 @@ Tree::Tree(){
     root = NULL;
 }
 Tree::~Tree(){
-    // clear();
+    clear();
+}
+void Tree::clear(){
+apagaRecursivo(root);
+root = NULL;
+}
+void Tree::apagaRecursivo(Node *p){
+if(p!=NULL){
+apagaRecursivo(p->esq);
+apagaRecursivo(p->dir);
+delete p;
+}
 }
 void Tree::print(){
     inOrdem(root);
@@ -18,76 +29,71 @@ if(p!=NULL){
 void Tree::insere(Email * email){
     insereRecursivo(root,email);
 }
-Node* minValueNode(Node* node)
-{
-    Node* current = node;
- 
-    /* loop down to find the leftmost leaf */
-    while (current && current->esq != NULL)
-        current = current->esq;
- 
-    return current;
-}
-Node* deleteNode(Node* aux, int key)
-{
-    // base case
-    if (aux == NULL)
-        return aux;
- 
-    // If the key to be deleted is
-    // smaller than the aux's
-    // key, then it lies in esq subtree
-    if (key < aux->email->identifier)
-        aux->esq = deleteNode(aux->esq, key);
- 
-    // If the key to be deleted is
-    // greater than the aux's
-    // key, then it lies in dir subtree
-    else if (key > aux->email->identifier)
-        aux->dir = deleteNode(aux->dir, key);
- 
-    // if key is same as aux's key, then This is the node
-    // to be deleted
-    else {
-        // node has no child
-        if (aux->esq==NULL and aux->dir==NULL)
-            return NULL;
-       
-        // node with only one child or no child
-        else if (aux->esq == NULL) {
-            Node* temp = aux->dir;
-            free(aux);
-            return temp;
-        }
-        else if (aux->dir == NULL) {
-            Node* temp = aux->esq;
-            free(aux);
-            return temp;
-        }
- 
-        // node with two children: Get the inorder successor
-        // (smallest in the dir subtree)
-        Node* temp = minValueNode(aux->dir);
- 
-        // Copy the inorder successor's content to this node
-        aux->email = temp->email;
- 
-        // Delete the inorder successor
-        aux->dir = deleteNode(aux->dir, temp->email->identifier);
+void Tree::Antecessor(Node *q, Node* &r){
+    if(r->dir != NULL) {
+        Antecessor(q, r->dir);
+        return;
     }
-    return aux;
+    q->email->identifier = r->email->identifier;
+    q = r;
+    r = r->esq;
+    free(q);
+}
+void Tree::RemoveRecursivo(Node* &no, int chave){
+    Node *aux;
+    if (no == NULL) {
+        std::cout<<"ERRO: MENSAGEM INEXISTENTE"<<std::endl;
+        return;
+    }
+    if (chave < no->email->identifier)
+        return RemoveRecursivo(no->esq, chave);
+    else if (chave>no->email->identifier)
+        return RemoveRecursivo(no->dir, chave);
+    else if(chave==no->email->identifier){
+        std::cout<<"OK: MENSAGEM APAGADA"<<std::endl;
+        if (no->dir == NULL) {
+        aux = no;
+        no = no->esq;
+        free(aux);
+}
+    else if(no->esq == NULL) {
+        aux = no;
+        no = no->dir;
+        free(aux);
+}
+    else{
+        Antecessor(no, no->esq);
+    }
+}
 }
 void Tree::apaga(int identifier){
-    deleteNode(root,identifier);
+    RemoveRecursivo(root,identifier);
 }
 void Tree::insereRecursivo(Node* &p, Email * &item){
     if(p==NULL){
         p = new Node(item);
     }
     else{
-        if(item ->identifier< p->email->identifier)
+        if(item ->identifier< p->email->identifier){
             insereRecursivo(p->esq, item);
-        else
+        }
+        else{
             insereRecursivo(p->dir, item);
+        }
 }
+}
+Email * Tree::pesquisa(int u,int identifier){
+    Node * aux = root;
+    while(aux!=NULL){
+        if(aux->email->identifier==identifier&&aux->email->part==u){
+            return aux->email;
+        }
+        if(identifier<aux->email->identifier){
+            aux = aux->esq;
+        }
+        else{
+            aux = aux->dir;
+        }
+    }
+    return NULL;
 }

@@ -10,9 +10,11 @@ Node *root;
 void print();
 void clear();
 void apaga(int identifier);
+Email * pesquisa(int u,int identifier);
 private:
 void insereRecursivo(Node* &p, Email * &item);
-void removeNode(Node * prev, Node * aux);
+void Antecessor(Node *q, Node* &r);
+void RemoveRecursivo(Node * &no, int chave);
 void apagaRecursivob(Node * p, Email * & email);
 void apagaRecursivo(Node* p);
 void porNivel();

@@ -1,9 +1,9 @@
 #include "email.h"
-Email::Email(int _indentifier, Player * _player, Message *_message){
+Email::Email(int _part,int _indentifier, std::string _message){
     identifier = _indentifier;
-    player = _player;
+    part = _part;
     message = _message;
 }
 void Email::printEmail(){
-    message->printMessage();
+    std::cout <<message<<std::endl;
 }

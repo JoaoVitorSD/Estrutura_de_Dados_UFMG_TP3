@@ -1,14 +1,16 @@
-#include "message.h"
-#include "player.h"
-
+#include <iostream>
 class Email{
     public:
-    Email(int _indentifier, Player * _player, Message *_message);
+    Email(){};
+    Email(int part, int _indentifier, std::string _message);
     void printEmail();
-    Player * player;
-    Message * message;
+    std::string  message;
     int identifier;
+    int part;
     bool operator<(Email * &a){
         return identifier<a->identifier;
+    }
+    bool operator==(Email * &a){
+        return identifier==a->identifier;
     }
 };

@@ -1,14 +1,45 @@
-#include <iostream>
-#include "tree.h"
-int main(){
-    Tree * tree = new Tree();
-    tree->insere(new Email(10,new Player("joao"),  new Message("text")));
-    tree->insere(new Email(9,new Player("riverton"),  new Message("riverton")));
-    tree->insere(new Email(5,new Player("ludmila"),  new Message("ludmila")));
-    tree->insere(new Email(16,new Player("vitor"),  new Message("vitor")));
-    tree->insere(new Email(12,new Player("bruno"),  new Message("bruno")));
-    tree->insere(new Email(18,new Player("joaozinho"),  new Message("joaozinho")));
-    tree->apaga(12);
-    tree->print();
+#include "hash.h"
+#include <fstream>
+int main(int argc, char *argv[]){
+    if(argc<3){
+        throw "ARGUMENTOS INSUFICIENTES";
+    }
+    std::ifstream  f;
+    f.open(argv[2]);
+    int trees;
+    f>>trees;
+    Hash_LE * hash = new Hash_LE(trees);
+    std::string aux;
+    int identDest;
+    int words;
+    int identEmail;
+    std::string email;
+    std::string word;
+    while(f>>aux){
+        email="";
+        if(aux=="ENTREGA"){
+            f>>identDest;
+            f>>identEmail;
+            f>>words;
+            for(int i =0;i<words;i++){
+                f>>word;
+                if(i>0){
+                email.append(" "+word);
+                }else{
+                email.append(word);
+                }
+            }
+            hash->Insere(identDest, new Email(identDest,identEmail,email));
+        }else if(aux == "CONSULTA"){
+            f>>identDest;
+            f>>identEmail;
+            hash->Verify(identDest,identEmail);
+        }else if(aux=="APAGA"){
+            f>>identDest;
+            f>>identEmail;
+            hash->Remove(identDest,identEmail);
+        }
+    }
+    f.close();
     return 0;
 }
